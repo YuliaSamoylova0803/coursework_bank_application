@@ -9,7 +9,13 @@ from pathlib import Path
 import requests
 from dotenv import load_dotenv
 
+from main import logger
 from src.settings import BASE_DIR
+from logging import getLogger
+
+
+logger = getLogger(__nam__)
+
 
 excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
@@ -22,7 +28,7 @@ API_KEY_STOCK = os.getenv("API_KEY_STOCK")
 
 def get_date(date: str):
     """Функция преобразования даты"""
-    #logger.info(f"Получена строка даты: {date}")
+    logger.info(f"Получена строка даты: {date}")
     date_update = datetime.strptime(date, "%d.%m.%Y")
     return date_update.strftime("%Y-%m-%d")
 
@@ -32,6 +38,7 @@ print(date_times)
 
 def first_month_day(input_datetime: str) -> dt:
     """Функция принимает на вход строку с датой и возвращает начало месяца"""
+    logger.info(f"Вызвана функция получения начала месяца")
     date_update = datetime.strptime(input_datetime, "%Y-%m-%d %H:%M:%S")
     start_day = date_update.replace(day=1, hour=0, minute=0, second=0)
     return start_day
@@ -42,14 +49,14 @@ def first_month_day(input_datetime: str) -> dt:
 
 def get_excel_dataframe(path_excel: str) -> pd.DataFrame:
     """Функция для считывания финансовых операций из Excel и возвращает датафрейм"""
-    #logger.info(f"Вызвана функция получения транзакций из файла {file_path}")
+    logger.info(f"Вызвана функция получения транзакций из файла {file_path}")
     try:
         df_transactions = pd.read_excel(path_excel)
-        #logger.info(f"Файл {path_excel} найден, данные о транзакциях получены")
+        logger.info(f"Файл {path_excel} найден, данные о транзакциях получены")
         return df_transactions
 
     except FileNotFoundError:
-        #logger.info(f"Файл {path_excel} не найден")
+        logger.info(f"Файл {path_excel} не найден")
         raise
 
 
@@ -58,18 +65,18 @@ print(get_excel_dataframe(excel_filename))
 
 def get_dict_transaction(path_excel) -> list[dict]:
     """Функция преобразовывающая датафрейм в словарь pyhton"""
-    #logger.info(f"Вызвана функция get_dict_transaction с файлом {path_excel}")
+    logger.info(f"Вызвана функция get_dict_transaction с файлом {path_excel}")
     try:
         df = pd.read_excel(path_excel)
-        #logger.info(f"Файл {path_excel}  прочитан")
+        logger.info(f"Файл {path_excel}  прочитан")
         dict_transaction = df.to_dict(orient="records")
-        #logger.info("Датафрейм преобразован в список словарей")
+        logger.info("Датафрейм преобразован в список словарей")
         return dict_transaction
     except FileNotFoundError:
-        #logger.error(f"Файл {path_excel} не найден")
+        logger.error(f"Файл {path_excel} не найден")
         raise
     except Exception as e:
-        #logger.error(f"Произошла ошибка: {str(e)}")
+        logger.error(f"Произошла ошибка: {str(e)}")
         raise
 
 print(get_dict_transaction(excel_filename)[0])
@@ -78,6 +85,7 @@ print(get_dict_transaction(excel_filename)[0])
 def get_currency_exchange_rates(json_file: str) -> list[Any]:
     """Функция принимает на вход json-файл и возвращает список словарей с курсами требуемых валют.
      Курс валюты функция импортирует через API"""
+    logger.info("Открытие файла JSON")
     with open(json_file, "r", encoding="utf-8") as file:
         currencies_stocks_list = json.load(file)
         currency_rates_list_dicts = []
@@ -91,6 +99,7 @@ def get_currency_exchange_rates(json_file: str) -> list[Any]:
         status_code = response.status_code
 
         if status_code != 200:
+            logger.info(f"Запрос не был успешным. Возможная причина: {response.reason}")
             print(f"Запрос не был успешным. Возможная причина: {response.reason}")
         else:
             result = response.json()
@@ -109,14 +118,14 @@ def get_currency_exchange_rates(json_file: str) -> list[Any]:
 def get_stock_prices(json_file: str) -> list[Any]:
     """Функция принимает на вход json-файл и возвращает список словарей с курсами требуемых акций.
     Стоимости акций функция импортирует через API"""
-    #logger.info("Стоимости акций получены")
+    logger.info("Стоимости акций получены")
     with open(json_file, "r", encoding="utf-8") as file:
 
         currencies_stocks_list = json.load(file)
         stock_prices_list_dicts = []
 
     for i in currencies_stocks_list.get("user_stocks"):
-        url = url = f"https://financialmodelingprep.com/api/v3/quote/{i}?apikey={API_KEY_STOCK}"
+        url = f"https://financialmodelingprep.com/api/v3/quote/{i}?apikey={API_KEY_STOCK}"
         payload = {}
         headers = {"apikey": API_KEY_STOCK}
 
@@ -147,6 +156,7 @@ def get_stock_prices(json_file: str) -> list[Any]:
 
 def filter_date(df_test: str) -> pd.DataFrame:
     """Функция создает DataFrame по заданному периоду времени"""
+    logger.info("Функция начала сортировать")
     df = pd.read_excel(df_test)
     df_date = pd.to_datetime(df["Дата операции"], format="%d.%m.%Y %H:%M:%S")
     filtered_df_to_date = df[(begin_month <= df_date) & (df_date <= input_datetime)]
@@ -162,7 +172,7 @@ def cards_info(df_transactions: pd.DataFrame) -> list[dict[str, Any]]:
     df_input = df_transactions
     df_output = []
     try:
-        #logger.info("Данные из файла xlsx импортированы")
+        logger.info("Данные из файла xlsx импортированы")
 
         cards = df_input.groupby("Номер карты")
         cards_prices = cards["Сумма операции с округлением"].sum()
@@ -176,7 +186,7 @@ def cards_info(df_transactions: pd.DataFrame) -> list[dict[str, Any]]:
             df_output.append(df_result)
         return df_output
     except Exception:
-        #logger.warning("Импортируемый список пуст или отсутствует.")
+        logger.warning("Импортируемый список пуст или отсутствует.")
         return [{}]
 
 
@@ -186,7 +196,7 @@ def top_transactions(df_transactions: pd.DataFrame) -> list[dict[str, Any]] | No
     df_input_sort = df_transactions
     df_output_sort = []
     try:
-        #logger.info("Данные из файла xlsx импортированы")
+        logger.info("Данные из файла xlsx импортированы")
 
         sorted_df = df_input_sort.sort_values("Сумма платежа", ascending=False)
         sort_five = sorted_df.iloc[0:5]
@@ -201,5 +211,5 @@ def top_transactions(df_transactions: pd.DataFrame) -> list[dict[str, Any]] | No
             df_output_sort.append(df_sort_result)
         return df_output_sort
     except Exception:
-        #logger.warning("Импортируемый список пуст или отсутствует.")
+        logger.warning("Импортируемый список пуст или отсутствует.")
         return None

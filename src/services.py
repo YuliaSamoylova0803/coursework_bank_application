@@ -3,13 +3,16 @@ import re
 from pathlib import Path
 from src.settings import BASE_DIR
 import pandas as pd
+from logging import getLogger
 
+
+logger = getLogger(__name__)
 
 excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
 project_log = Path(BASE_DIR, "logs", "logs_file.txt")
 
-from src.utils import get_dict_transaction
+from src.utils import get_dict_transaction, logger
 
 
 # logger = logging.getLogger("logs")
@@ -21,18 +24,18 @@ from src.utils import get_dict_transaction
 
 def search_transactions_for_individuals(dict_transaction: list[dict], pattern: str):
     """Функция возвращает JSON со всеми транзакциями, которые относятся к переводам физическим лицам"""
-    #logger.info("Вызвана функция get_transactions_fizlicam")
+    logger.info("Вызвана функция get_transactions_fizlicam")
     search_transactions_fizface = []
     for transaction in dict_transaction:
         if "Описание" in transaction and re.match(pattern, transaction["Описание"]):
             search_transactions_fizface.append(transaction)
-    #logger.info(f"Найдено {len(list_transactions_fl)} транзакций, соответствующих паттерну")
+    logger.info(f"Найдено {len(search_transactions_fizface)} транзакций, соответствующих паттерну")
     if search_transactions_fizface:
         search_transactions_fizface_json = json.dumps(search_transactions_fizface, ensure_ascii=False)
-        #logger.info(f"Возвращен JSON со {len(list_transactions_fl)} транзакциями")
+        logger.info(f"Возвращен JSON со {len(search_transactions_fizface)} транзакциями")
         return search_transactions_fizface_json
     else:
-        #logger.info("Возвращен пустой список")
+        logger.info("Возвращен пустой список")
         return []
 
 

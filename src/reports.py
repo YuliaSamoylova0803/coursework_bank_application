@@ -2,9 +2,13 @@ from functools import wraps
 from typing import Any, Callable, Optional
 import datetime
 import datetime as dt
-from src.utils import get_excel_dataframe, get_date
+from src.utils import get_excel_dataframe, get_date, logger
 from pathlib import Path
 from src.settings import BASE_DIR
+from logging import getLogger
+
+
+logger = getLogger(__name__)
 
 excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 
