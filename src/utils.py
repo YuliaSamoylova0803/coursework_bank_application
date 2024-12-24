@@ -1,6 +1,23 @@
 from datetime import datetime
 import datetime as dt
+from typing import Any
+import json
+import os
 
+import pandas as pd
+from pathlib import Path
+import requests
+from dotenv import load_dotenv
+
+from src.settings import BASE_DIR
+
+excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
+reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
+project_log = Path(BASE_DIR, "logs", "logs_file.txt")
+
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
+API_KEY_STOCK = os.getenv("API_KEY_STOCK")
 
 
 def get_date(date: str):
@@ -36,7 +53,7 @@ def get_excel_dataframe(path_excel: str) -> pd.DataFrame:
         raise
 
 
-print(get_excel_dataframe(abs_src_file_path1))
+print(get_excel_dataframe(excel_filename))
 
 
 def get_dict_transaction(path_excel) -> list[dict]:
@@ -55,7 +72,7 @@ def get_dict_transaction(path_excel) -> list[dict]:
         #logger.error(f"Произошла ошибка: {str(e)}")
         raise
 
-print(get_dict_transaction(abs_src_file_path1)[0])
+print(get_dict_transaction(excel_filename)[0])
 
 
 def get_currency_exchange_rates(json_file: str) -> list[Any]:
@@ -136,7 +153,7 @@ def filter_date(df_test: str) -> pd.DataFrame:
     return filtered_df_to_date
 
 
-filtered_df_to_date = filter_date(abs_src_file_path1)
+filtered_df_to_date = filter_date(excel_filename)
 
 
 def cards_info(df_transactions: pd.DataFrame) -> list[dict[str, Any]]:
@@ -165,7 +182,7 @@ def cards_info(df_transactions: pd.DataFrame) -> list[dict[str, Any]]:
 
 def top_transactions(df_transactions: pd.DataFrame) -> list[dict[str, Any]] | None:
     """Функция принимает на вход DataFrame и возвращает ТОП-5 транзакций по сумме платежа"""
-    df_transactions = get_excel_dataframe(abs_src_file_path1)
+    df_transactions = get_excel_dataframe(excel_filename)
     df_input_sort = df_transactions
     df_output_sort = []
     try:

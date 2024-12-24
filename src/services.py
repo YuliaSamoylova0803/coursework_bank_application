@@ -1,5 +1,13 @@
 import json
 import re
+from pathlib import Path
+from src.settings import BASE_DIR
+import pandas as pd
+
+
+excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
+reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
+project_log = Path(BASE_DIR, "logs", "logs_file.txt")
 
 from src.utils import get_dict_transaction
 
@@ -31,7 +39,7 @@ def search_transactions_for_individuals(dict_transaction: list[dict], pattern: s
 
 if __name__ == "__main__":
     search_transactions_fizface_json = search_transactions_for_individuals(
-        get_dict_transaction("../data/operations.xlsx"), pattern=r"\b[А-Я][а-я]+\s[А-Я]\."
+        get_dict_transaction(excel_filename), pattern=r"\b[А-Я][а-я]+\s[А-Я]\."
     )
     print(search_transactions_fizface_json)
 

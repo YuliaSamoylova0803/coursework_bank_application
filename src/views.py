@@ -1,5 +1,8 @@
 from datetime import datetime
+from pathlib import Path
+from src.settings import BASE_DIR
 
+project_log = Path(BASE_DIR, "logs", "logs_file.txt")
 
 
 

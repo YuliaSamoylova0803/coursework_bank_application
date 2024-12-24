@@ -3,7 +3,10 @@ from typing import Any, Callable, Optional
 import datetime
 import datetime as dt
 from src.utils import get_excel_dataframe, get_date
+from pathlib import Path
+from src.settings import BASE_DIR
 
+excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 
 def log(filename: Optional[str] = None) -> Callable:
     """Декоратор, который может логировать работу функции и ее результат как в файл, так и в консоль."""
@@ -49,6 +52,6 @@ def spending_by_category(df_transactions: pd.DataFrame, category: str, date: [st
 
 if __name__ == "__main__":
     result = spending_by_category(
-        get_excel_dataframe(abs_src_file_path1), "Аптеки", "26.07.2019 20:58:55"
+        get_excel_dataframe(excel_filename), "Аптеки", "26.07.2019 20:58:55"
     )
     print(result)
