@@ -24,11 +24,16 @@ project_log = Path(BASE_DIR, "logs", "logs_file.txt")
 
 
 
-def get_date(date_now: str):
+def get_date(date: str):
     """Функция преобразования даты"""
-    logger.info(f"Получена строка даты: {date_now}")
-    date_update = datetime.strptime(date_now, "%d.%m.%Y")
-    return date_update.strftime("%Y-%m-%d")
+    logger.info(f"Получена строка даты: {date}")
+    try:
+        date_times = datetime.strptime(date, "%d.%m.%Y %H:%M:%S")
+        logger.info(f"Преобразована в объект datetime: {date_times}")
+        return date_times
+    except ValueError as e:
+        logger.error(f"Ошибка преобразования даты: {e}")
+        raise e
 
 
 def get_excel_dataframe(path_excel: str) -> pd.DataFrame:
