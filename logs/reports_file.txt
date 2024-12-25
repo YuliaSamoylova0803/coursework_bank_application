@@ -1,0 +1,2 @@
+spending_by_category ok
+spending_by_category ok

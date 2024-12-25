@@ -10,7 +10,7 @@ import pandas as pd
 
 
 logger = getLogger(__name__)
-
+reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
 excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 
 def log(filename: Optional[str] = None) -> Callable:
@@ -39,7 +39,7 @@ def log(filename: Optional[str] = None) -> Callable:
 
     return logging_decorator
 
-
+@ log(reports_log)
 def spending_by_category(df_transactions, category: str, date: [str] = None) -> pd.DataFrame:
     """Функция возвращает траты по заданной категории за последние три месяца (от переданной даты)"""
     if date is None:
