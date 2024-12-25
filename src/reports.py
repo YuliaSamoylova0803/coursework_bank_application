@@ -2,10 +2,11 @@ from functools import wraps
 from typing import Any, Callable, Optional
 import datetime
 import datetime as dt
-from src.utils import get_excel_dataframe, get_date, logger
+from src.utils import get_excel_dataframe, get_date
 from pathlib import Path
 from src.settings import BASE_DIR
 from logging import getLogger
+import pandas as pd
 
 
 logger = getLogger(__name__)
@@ -39,7 +40,7 @@ def log(filename: Optional[str] = None) -> Callable:
     return logging_decorator
 
 
-def spending_by_category(df_transactions: pd.DataFrame, category: str, date: [str] = None) -> pd.DataFrame:
+def spending_by_category(df_transactions, category: str, date: [str] = None) -> pd.DataFrame:
     """Функция возвращает траты по заданной категории за последние три месяца (от переданной даты)"""
     if date is None:
         fin_date = dt.datetime.now()
@@ -55,7 +56,7 @@ def spending_by_category(df_transactions: pd.DataFrame, category: str, date: [st
 
 
 if __name__ == "__main__":
-    result = spending_by_category(
-        get_excel_dataframe(excel_filename), "Аптеки", "26.07.2019 20:58:55"
+    transactions_by_category = spending_by_category(
+        get_excel_dataframe(excel_filename), "Фастфуд", "26.07.2019 20:58:55"
     )
-    print(result)
+    print(transactions_by_category.head())
