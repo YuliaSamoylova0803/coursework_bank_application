@@ -14,7 +14,7 @@ reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
 excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 
 def log(filename: Optional[str] = None) -> Callable:
-    """Декоратор, который может логировать работу функции и ее результат как в файл, так и в консоль."""
+    """Декоратор, который может записать работу функции и ее результат как в файл, так и в консоль."""
 
     def logging_decorator(func: Any) -> Any:
         @wraps(func)
@@ -57,6 +57,6 @@ def spending_by_category(df_transactions, category: str, date: [str] = None) -> 
 
 if __name__ == "__main__":
     transactions_by_category = spending_by_category(
-        get_excel_dataframe(excel_filename), "Фастфуд", "26.07.2019 20:58:55"
+        get_excel_dataframe(excel_filename), "Медицина", "31.12.2021 12:00:00"
     )
-    print(transactions_by_category.head())
+    print(len(transactions_by_category))
