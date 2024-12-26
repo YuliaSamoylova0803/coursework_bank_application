@@ -1,15 +1,14 @@
+import json
+import os
 from datetime import datetime
+from logging import getLogger
 from pathlib import Path
-import datetime as dt
 from typing import Any
 
 import requests
-from src.settings import BASE_DIR
-from logging import getLogger
 from dotenv import load_dotenv
-import json
-import os
 
+from src.settings import BASE_DIR
 
 logger = getLogger(__name__)
 
@@ -36,10 +35,9 @@ def get_greeting(input_datetime: str) -> str:
         return "Доброй ночи"
 
 
-
 def get_currency_exchange_rates(json_file: str) -> list[Any]:
     """Функция принимает на вход json-файл и возвращает список словарей с курсами требуемых валют.
-     Курс валюты функция импортирует через API"""
+    Курс валюты функция импортирует через API"""
     logger.info("Открытие файла JSON")
     with open(json_file, "r") as file:
         currencies_stocks_list = json.load(file)
@@ -59,15 +57,15 @@ def get_currency_exchange_rates(json_file: str) -> list[Any]:
         else:
             result = response.json()
 
-            currency_rates_dict = {"currency": i, "rate": result.get("conversion_rates").get("RUB")}
+            currency_rates_dict = {"currency": i, "rate": round(result.get("conversion_rates").get("RUB"), 2)}
             currency_rates_list_dicts.append(currency_rates_dict)
 
     return currency_rates_list_dicts
 
 
-if __name__ == "__main__":
-    currency_rates = get_currency_exchange_rates(stock_rates_path)
-    print(currency_rates)
+# if __name__ == "__main__":
+#     currency_rates = get_currency_exchange_rates(stock_rates_path)
+#     print(currency_rates)
 
 
 def get_stock_prices(json_file: str) -> list[Any]:
@@ -98,12 +96,12 @@ def get_stock_prices(json_file: str) -> list[Any]:
     return stock_prices_list_dicts
 
 
-#print(get_stock_prices("user_settings.json"))
+# print(get_stock_prices("user_settings.json"))
 
-if __name__ == "__main__":
-    #print(get_currency_exchange_rates(["USD", "EUR", "JPY"]))
-
-    stock = "AAPL"
-    stock_price = get_stock_prices(stock_rates_path)
-
-    print(stock_price)
+# if __name__ == "__main__":
+#     #print(get_currency_exchange_rates(["USD", "EUR", "JPY"]))
+#
+#     stock = "AAPL"
+#     stock_price = get_stock_prices(stock_rates_path)
+#
+#     print(stock_price)

@@ -1,6 +1,7 @@
-import pytest
-import pytest
 import json
+
+import pytest
+
 from src.services import search_transactions_for_individuals
 
 

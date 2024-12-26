@@ -1,2 +1,76 @@
 spending_by_category ok
 spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category error: AttributeError. Inputs: (<function df_transaction_1 at 0x000002E7B15787C0>, 'Медицина', '31.12.2021 17:50:30'), {}
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category error: AttributeError. Inputs: (<function df_transaction_1 at 0x000001B8C876EFC0>, 'Медицина', '31.12.2021 17:50:30'), {}
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category error: AttributeError. Inputs: (<function df_transaction_1 at 0x00000241C8ECEFC0>, 'Медицина', '31.12.2021 17:50:30'), {}
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category error: AttributeError. Inputs: (<function df_transaction_1 at 0x000001CF80492FC0>, 'Медицина', '31.12.2021 17:50:30'), {}
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category error: AttributeError. Inputs: (<function df_transaction_1 at 0x0000028814359300>, 'Медицина', '31.12.2021 17:50:30'), {}
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category error: AttributeError. Inputs: (<function df_transaction_1 at 0x0000020395B6D300>, 'Медицина', '31.12.2021 17:50:30'), {}
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category error: AttributeError. Inputs: (<function df_transaction_1 at 0x00000261245DD300>, 'Медицина', '31.12.2021 17:50:30'), {}
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category error: AttributeError. Inputs: (<function df_transaction_1 at 0x00000120FD5F9300>, 'Медицина', '31.12.2021 17:50:30'), {}
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category ok
+spending_by_category error: AttributeError. Inputs: (<function df_transaction_1 at 0x000001683B6D9300>, 'Медицина', '31.12.2021 17:50:30'), {}

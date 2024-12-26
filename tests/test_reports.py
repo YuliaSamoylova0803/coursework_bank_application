@@ -1,8 +1,4 @@
-import pytest
-import pandas as pd
-import datetime as dt
 from src.reports import log, spending_by_category
-from src.utils import get_date
 from tests.conftest import df_transaction_1
 
 
@@ -15,7 +11,7 @@ def test_spending_by_category_with_date(data_for_tests):
 
 
 def test_spending_by_category_no_date(data_for_tests):
-    result = spending_by_category(data_for_tests, "Продукты", "25.12.2021 18:45:00" )
+    result = spending_by_category(data_for_tests, "Продукты", "25.12.2021 18:45:00")
     assert len(result) == 1  # Ожидаем три строки, соответствующие категории "Продукты"
 
 
@@ -41,7 +37,7 @@ def test_spending_by_category_medicina(df_transaction_1):
 
 @log(filename="reports_file.txt")
 def test_log_save_file():
-    result = spending_by_category(df_transaction_1,"Медицина", "31.12.2021 17:50:30")
+    result = spending_by_category(df_transaction_1, "Медицина", "31.12.2021 17:50:30")
     assert len(result) == 2
 
 

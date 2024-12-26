@@ -1,10 +1,9 @@
 import json
 import re
-from pathlib import Path
-from src.settings import BASE_DIR
-import pandas as pd
 from logging import getLogger
+from pathlib import Path
 
+from src.settings import BASE_DIR
 
 logger = getLogger(__name__)
 
@@ -12,15 +11,9 @@ excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
 project_log = Path(BASE_DIR, "logs", "logs_file.txt")
 
+
 from src.utils import get_dict_transaction, logger
 
-
-# logger = logging.getLogger("logs")
-# logger.setLevel(logging.INFO)
-# file_handler = logging.FileHandler("..\\logs\\services.log", encoding="utf-8")
-# file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s: %(message)s")
-# file_handler.setFormatter(file_formatter)
-# logger.addHandler(file_handler)
 
 def search_transactions_for_individuals(dict_transaction: list[dict], pattern: str):
     """Функция возвращает JSON со всеми транзакциями, которые относятся к переводам физическим лицам"""
@@ -39,11 +32,8 @@ def search_transactions_for_individuals(dict_transaction: list[dict], pattern: s
         return []
 
 
-
 if __name__ == "__main__":
     search_transactions_fizface_json = search_transactions_for_individuals(
         get_dict_transaction(excel_filename), pattern=r"\b[А-Я][а-я]+\s[А-Я]\."
     )
     print(search_transactions_fizface_json)
-
-

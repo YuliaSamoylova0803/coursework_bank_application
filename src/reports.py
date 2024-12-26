@@ -1,17 +1,19 @@
-from functools import wraps
-from typing import Any, Callable, Optional
 import datetime
 import datetime as dt
-from src.utils import get_excel_dataframe, get_date
-from pathlib import Path
-from src.settings import BASE_DIR
+from functools import wraps
 from logging import getLogger
+from pathlib import Path
+from typing import Any, Callable, Optional
+
 import pandas as pd
 
+from src.settings import BASE_DIR
+from src.utils import get_date, get_excel_dataframe
 
 logger = getLogger(__name__)
 reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
 excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
+
 
 def log(filename: Optional[str] = None) -> Callable:
     """Декоратор, который может записать работу функции и ее результат как в файл, так и в консоль."""
@@ -39,7 +41,8 @@ def log(filename: Optional[str] = None) -> Callable:
 
     return logging_decorator
 
-@ log(reports_log)
+
+@log(reports_log)
 def spending_by_category(df_transactions, category: str, date: [str] = None) -> pd.DataFrame:
     """Функция возвращает траты по заданной категории за последние три месяца (от переданной даты)"""
     if date is None:
@@ -52,7 +55,7 @@ def spending_by_category(df_transactions, category: str, date: [str] = None) -> 
         & (pd.to_datetime(df_transactions["Дата операции"], dayfirst=True) >= start_date)
         & (df_transactions["Категория"] == category)
     ]
-    return  transactions_by_category
+    return transactions_by_category
 
 
 if __name__ == "__main__":

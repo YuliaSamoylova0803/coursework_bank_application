@@ -1,14 +1,13 @@
-import pytest
 import datetime
-import datetime as dt
-from pathlib import Path
-from src.settings import BASE_DIR
-from src.utils import get_date, get_excel_dataframe, get_dict_transaction, get_expenses_cards, top_transactions
 import unittest
-import pandas as pd
-import json
-from unittest.mock import Mock, patch
+from pathlib import Path
+from unittest.mock import patch
 
+import pandas as pd
+import pytest
+
+from src.settings import BASE_DIR
+from src.utils import get_date, get_dict_transaction, get_excel_dataframe, get_expenses_cards, top_transactions
 
 excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
@@ -85,14 +84,15 @@ def test_get_expenses_cards(sample_transactions):
 
 def test_top_transactions(top_trans_data):
     assert top_transactions(top_trans_data) == [
-        {'amount': -20000.0, 'category': 'Переводы', 'date': '30.12.2021', 'description': 'Константин Л.'},
-        {'amount': -800.0, 'category': 'Переводы', 'date': '31.12.2021', 'description': 'Константин Л.'},
-        {'amount': -564.0, 'category': 'Различные товары', 'date': '31.12.2021', 'description': 'Ozon.ru'},
-        {'amount': -160.89, 'category': 'Супермаркеты', 'date': '31.12.2021', 'description': 'Колхоз'},
-        {'amount': -118.12, 'category': 'Супермаркеты', 'date': '31.12.2021', 'description': 'Магнит'}]
+        {"amount": -20000.0, "category": "Переводы", "date": "30.12.2021", "description": "Константин Л."},
+        {"amount": -800.0, "category": "Переводы", "date": "31.12.2021", "description": "Константин Л."},
+        {"amount": -564.0, "category": "Различные товары", "date": "31.12.2021", "description": "Ozon.ru"},
+        {"amount": -160.89, "category": "Супермаркеты", "date": "31.12.2021", "description": "Колхоз"},
+        {"amount": -118.12, "category": "Супермаркеты", "date": "31.12.2021", "description": "Магнит"},
+    ]
 
 
-def test_top_transactions(top_trans_data):
+def test_top_transactions_len(top_trans_data):
     assert len(top_transactions(top_trans_data)) == 5
 
 
@@ -100,5 +100,3 @@ def test_top_transaction_empty_list():
     """Тест на случай, если передан пустой список транзакций."""
     with pytest.raises(TypeError):
         top_transactions()
-
-
