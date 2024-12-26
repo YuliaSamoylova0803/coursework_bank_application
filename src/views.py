@@ -63,9 +63,9 @@ def get_currency_exchange_rates(json_file: str) -> list[Any]:
     return currency_rates_list_dicts
 
 
-# if __name__ == "__main__":
-#     currency_rates = get_currency_exchange_rates(stock_rates_path)
-#     print(currency_rates)
+if __name__ == "__main__":
+    currency_rates = get_currency_exchange_rates(stock_rates_path)
+    print(currency_rates)
 
 
 def get_stock_prices(json_file: str) -> list[Any]:
@@ -90,18 +90,16 @@ def get_stock_prices(json_file: str) -> list[Any]:
         else:
             result = response.json()
 
-            stock_prices_dict = {"stock": i, "price": result[0].get("priceAvg200")}
+            stock_prices_dict = {"stock": i, "price": round(result[0].get("priceAvg200"), 1)}
             stock_prices_list_dicts.append(stock_prices_dict)
 
     return stock_prices_list_dicts
 
 
-# print(get_stock_prices("user_settings.json"))
+# print(get_stock_prices(stock_rates_path))
 
-# if __name__ == "__main__":
-#     #print(get_currency_exchange_rates(["USD", "EUR", "JPY"]))
-#
-#     stock = "AAPL"
-#     stock_price = get_stock_prices(stock_rates_path)
-#
-#     print(stock_price)
+if __name__ == "__main__":
+
+    stock_price = get_stock_prices(stock_rates_path)
+
+    print(stock_price)

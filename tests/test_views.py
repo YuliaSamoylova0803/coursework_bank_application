@@ -56,9 +56,9 @@ def test_get_stock_prices(mocked_get, mocked_json_load, stocks_price):
     mocked_get.return_value = mocked_response
     result = get_stock_prices(stock_rates_path)
     assert result == [
-        {"stock": "AAPL", "price": 211.34505},
-        {"stock": "AMZN", "price": 188.5215},
-        {"stock": "GOOGL", "price": 168.1646},
-        {"stock": "MSFT", "price": 424.77774},
-        {"stock": "TSLA", "price": 232.245},
+        {"stock": "AAPL", "price": 211.8},
+        {"stock": "AMZN", "price": 188.8},
+        {"stock": "GOOGL", "price": 168.5},
+        {"stock": "MSFT", "price": 425.0},
+        {"stock": "TSLA", "price": 233.7},
     ]
