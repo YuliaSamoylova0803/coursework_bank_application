@@ -84,9 +84,9 @@ def top_transactions(df_transactions):
     return top_transaction_list
 
 
-# if __name__ == "__main__":
-#     top_transaction_list = top_transactions(get_excel_dataframe(excel_filename))
-#     print(top_transaction_list)
+if __name__ == "__main__":
+    top_transaction_list = top_transactions(get_excel_dataframe(excel_filename))
+    print(top_transaction_list)
 
 
 def get_expenses_cards(df_transactions) -> list[dict]:
@@ -113,6 +113,6 @@ def get_expenses_cards(df_transactions) -> list[dict]:
     return expenses_cards
 
 
-# if __name__ == "__main__":
-#     result_expenses_cards = get_expenses_cards(get_excel_dataframe(excel_filename))
-#     print(result_expenses_cards)
+if __name__ == "__main__":
+    result_expenses_cards = get_expenses_cards(get_excel_dataframe(excel_filename))
+    print(result_expenses_cards)
