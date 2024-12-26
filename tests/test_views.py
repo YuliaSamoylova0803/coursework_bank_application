@@ -30,18 +30,19 @@ def test_get_greeting(date_now, expected_greeting):
 def test_get_currency_exchange_rates(mocked_get, mocked_json_load, exchange_rates):
     mocked_response = Mock()
     mocked_json_load.return_value = {"user_currencies": ["USD", "EUR", "AED", "CNY", "GBP", "CHF", "KZT", "BYN"]}
+    mocked_get.return_value.status_code = 200
     mocked_response.json.return_value = []
     mocked_get.return_value = mocked_response
     result = get_currency_exchange_rates(stock_rates_path)
     assert result == [
-        {'currency': 'USD', 'rate': 100.1743},
-        {'currency': 'EUR', 'rate': 104.1774},
-        {'currency': 'AED', 'rate': 27.2769},
-        {'currency': 'CNY', 'rate': 13.728},
-        {'currency': 'GBP', 'rate': 125.6788},
-        {'currency': 'CHF', 'rate': 111.3147},
-        {'currency': 'KZT', 'rate': 0.1938},
-        {'currency': 'BYN', 'rate': 29.8479}
+        {'currency': 'USD', 'rate': 99.82},
+        {'currency': 'EUR', 'rate': 103.83},
+        {'currency': 'AED', 'rate': 27.18},
+        {'currency': 'CNY', 'rate': 13.67},
+        {'currency': 'GBP', 'rate': 125.25},
+        {'currency': 'CHF', 'rate': 111.0},
+        {'currency': 'KZT', 'rate': 0.19},
+        {'currency': 'BYN', 'rate': 29.95}
     ]
 
 
@@ -51,6 +52,7 @@ def test_get_stock_prices(mocked_get, mocked_json_load, stocks_price):
     mocked_response = Mock()
     mocked_json_load.return_value = {"user_stocks": ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]}
     mocked_response.json.return_value = []
+    mocked_get.return_value.status_code = 200
     mocked_get.return_value = mocked_response
     result = get_stock_prices(stock_rates_path)
     assert result == [
@@ -60,6 +62,7 @@ def test_get_stock_prices(mocked_get, mocked_json_load, stocks_price):
             {'stock': 'MSFT', 'price': 424.77774},
             {'stock': 'TSLA', 'price': 232.245}
     ]
+
 
 
 

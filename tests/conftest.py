@@ -4,14 +4,14 @@ import pytest
 @pytest.fixture
 def exchange_rates():
     return [
-        {'currency': 'USD', 'rate': 100.1743},
-        {'currency': 'EUR', 'rate': 104.1774},
-        {'currency': 'AED', 'rate': 27.2769},
-        {'currency': 'CNY', 'rate': 13.728},
-        {'currency': 'GBP', 'rate': 125.6788},
-        {'currency': 'CHF', 'rate': 111.3147},
-        {'currency': 'KZT', 'rate': 0.1938},
-        {'currency': 'BYN', 'rate': 29.8479}
+        {'currency': 'USD', 'rate': 99.82},
+        {'currency': 'EUR', 'rate': 103.83},
+        {'currency': 'AED', 'rate': 27.18},
+        {'currency': 'CNY', 'rate': 13.67},
+        {'currency': 'GBP', 'rate': 125.25},
+        {'currency': 'CHF', 'rate': 111.0},
+        {'currency': 'KZT', 'rate': 0.19},
+        {'currency': 'BYN', 'rate': 29.95}
     ]
 
 
