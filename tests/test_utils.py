@@ -1,13 +1,15 @@
 import datetime
+import datetime as dt
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import pandas as pd
 import pytest
 
 from src.settings import BASE_DIR
-from src.utils import get_date, get_dict_transaction, get_excel_dataframe, get_expenses_cards, top_transactions
+from src.utils import (get_currency_exchange_rates, get_date, get_dict_transaction, get_excel_dataframe,
+                       get_expenses_cards, get_greeting, get_stock_prices, top_transactions)
 
 excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
@@ -100,3 +102,70 @@ def test_top_transaction_empty_list():
     """Тест на случай, если передан пустой список транзакций."""
     with pytest.raises(TypeError):
         top_transactions()
+
+
+@patch("json.load")
+@patch("requests.get")
+def test_get_currency_exchange_rates(mocked_get, mocked_json_load, exchange_rates):
+    mocked_response = Mock()
+    mocked_json_load.return_value = {"user_currencies": ["USD", "EUR", "AED", "CNY", "GBP", "CHF", "KZT", "BYN"]}
+    mocked_get.return_value.status_code = 200
+    mocked_response.json.return_value = []
+    mocked_get.return_value = mocked_response
+    result = get_currency_exchange_rates(stock_rates_path)
+    assert result == [
+        {"currency": "USD", "rate": 103.32},
+        {"currency": "EUR", "rate": 107.75},
+        {"currency": "AED", "rate": 28.13},
+        {"currency": "CNY", "rate": 14.16},
+        {"currency": "GBP", "rate": 129.84},
+        {"currency": "CHF", "rate": 114.66},
+        {"currency": "KZT", "rate": 0.2},
+        {"currency": "BYN", "rate": 31.65},
+    ]
+
+
+@patch("json.load")
+@patch("requests.get")
+def test_get_stock_prices(mocked_get, mocked_json_load, stocks_price):
+    mocked_response = Mock()
+    mocked_json_load.return_value = {"user_stocks": ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]}
+    mocked_response.json.return_value = []
+    mocked_get.return_value.status_code = 200
+    mocked_get.return_value = mocked_response
+    result = get_stock_prices(stock_rates_path)
+    assert result == [
+        {"stock": "AAPL", "price": 212.2},
+        {"stock": "AMZN", "price": 189.1},
+        {"stock": "GOOGL", "price": 168.7},
+        {"stock": "MSFT", "price": 425.1},
+        {"stock": "TSLA", "price": 235.1},
+    ]
+
+
+def test_get_greeting_morning():
+    with pytest.raises(TypeError):
+        with patch("datetime.datetime.now") as mock_now:
+            mock_now.return_value = dt.datetime(2023, 4, 1, 8, 0, 0)
+            assert get_greeting() == "Доброе утро"
+
+
+def test_get_greeting_afternoon():
+    with pytest.raises(TypeError):
+        with patch("datetime.datetime.now") as mock_now:
+            mock_now.return_value = dt.datetime(2023, 4, 1, 14, 0, 0)
+            assert get_greeting() == "Добрый день"
+
+
+def test_get_greeting_evening():
+    with pytest.raises(TypeError):
+        with patch("datetime.datetime.now") as mock_now:
+            mock_now.return_value = dt.datetime(2023, 4, 1, 19, 0, 0)
+            assert get_greeting() == "Добрый вечер"
+
+
+def test_get_greeting_night():
+    with pytest.raises(TypeError):
+        with patch("datetime.datetime.now") as mock_now:
+            mock_now.return_value = dt.datetime(2023, 4, 1, 23, 0, 0)
+            assert get_greeting() == "Доброй ночи"
