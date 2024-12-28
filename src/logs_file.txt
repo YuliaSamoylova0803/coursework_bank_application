@@ -1,0 +1,51 @@
+2024-12-28 19:38:54,899 - root - INFO: Начало работы функции main
+2024-12-28 19:38:54,899 - src.utils - INFO: Получена строка даты: 27.07.2019 12:08:23
+2024-12-28 19:38:54,900 - src.utils - INFO: Преобразована в объект datetime: 2019-07-27 12:08:23
+2024-12-28 19:38:54,900 - src.utils - INFO: Получена строка даты: 27.07.2019 12:08:23
+2024-12-28 19:38:54,900 - src.utils - INFO: Преобразована в объект datetime: 2019-07-27 12:08:23
+2024-12-28 19:38:54,900 - src.utils - INFO: Вызвана функция получения транзакций из файла C:\Users\Юлия Самойлова\PycharmProjects\pythonProject\coursework_bank_application\data\operations.xlsx
+2024-12-28 19:38:55,415 - src.utils - INFO: Файл C:\Users\Юлия Самойлова\PycharmProjects\pythonProject\coursework_bank_application\data\operations.xlsx найден, данные о транзакциях получены
+2024-12-28 19:38:55,415 - src.utils - INFO: Начало выполнения функции get_expenses_cards
+2024-12-28 19:38:55,417 - src.utils - DEBUG: Получен словарь расходов по картам: {'*1112': -46207.08, '*4556': -1780150.21, '*5091': -17367.5, '*5441': -470854.8, '*5507': -84000.0, '*6002': -69200.0, '*7197': -2487419.56}
+2024-12-28 19:38:55,417 - src.utils - INFO: Добавлен расход по карте *1112: 46207.08
+2024-12-28 19:38:55,417 - src.utils - INFO: Добавлен расход по карте *4556: 1780150.21
+2024-12-28 19:38:55,417 - src.utils - INFO: Добавлен расход по карте *5091: 17367.5
+2024-12-28 19:38:55,417 - src.utils - INFO: Добавлен расход по карте *5441: 470854.8
+2024-12-28 19:38:55,417 - src.utils - INFO: Добавлен расход по карте *5507: 84000.0
+2024-12-28 19:38:55,417 - src.utils - INFO: Добавлен расход по карте *6002: 69200.0
+2024-12-28 19:38:55,417 - src.utils - INFO: Добавлен расход по карте *7197: 2487419.56
+2024-12-28 19:38:55,417 - src.utils - INFO: Завершение выполнения функции get_expenses_cards
+2024-12-28 19:38:55,418 - src.utils - INFO: Вызвана функция получения транзакций из файла C:\Users\Юлия Самойлова\PycharmProjects\pythonProject\coursework_bank_application\data\operations.xlsx
+2024-12-28 19:38:55,846 - src.utils - INFO: Файл C:\Users\Юлия Самойлова\PycharmProjects\pythonProject\coursework_bank_application\data\operations.xlsx найден, данные о транзакциях получены
+2024-12-28 19:38:55,846 - src.utils - INFO: Начало работы функции top_transaction
+2024-12-28 19:38:55,847 - src.utils - INFO: Получен топ 5 транзакций по сумме платежа
+2024-12-28 19:38:55,849 - src.utils - INFO: Стоимости акций получены
+2024-12-28 19:38:55,850 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): financialmodelingprep.com:443
+2024-12-28 19:38:56,647 - urllib3.connectionpool - DEBUG: https://financialmodelingprep.com:443 "GET /api/v3/quote/AAPL?apikey=aqlFchXRpp4PraiMhc7EBjTjbYeq03le HTTP/1.1" 200 None
+2024-12-28 19:38:56,651 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): financialmodelingprep.com:443
+2024-12-28 19:38:57,378 - urllib3.connectionpool - DEBUG: https://financialmodelingprep.com:443 "GET /api/v3/quote/AMZN?apikey=aqlFchXRpp4PraiMhc7EBjTjbYeq03le HTTP/1.1" 200 None
+2024-12-28 19:38:57,382 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): financialmodelingprep.com:443
+2024-12-28 19:38:58,135 - urllib3.connectionpool - DEBUG: https://financialmodelingprep.com:443 "GET /api/v3/quote/GOOGL?apikey=aqlFchXRpp4PraiMhc7EBjTjbYeq03le HTTP/1.1" 200 None
+2024-12-28 19:38:58,138 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): financialmodelingprep.com:443
+2024-12-28 19:38:58,872 - urllib3.connectionpool - DEBUG: https://financialmodelingprep.com:443 "GET /api/v3/quote/MSFT?apikey=aqlFchXRpp4PraiMhc7EBjTjbYeq03le HTTP/1.1" 200 None
+2024-12-28 19:38:58,875 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): financialmodelingprep.com:443
+2024-12-28 19:38:59,726 - urllib3.connectionpool - DEBUG: https://financialmodelingprep.com:443 "GET /api/v3/quote/TSLA?apikey=aqlFchXRpp4PraiMhc7EBjTjbYeq03le HTTP/1.1" 200 None
+2024-12-28 19:38:59,728 - src.utils - INFO: Открытие файла JSON
+2024-12-28 19:38:59,730 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): v6.exchangerate-api.com:443
+2024-12-28 19:39:00,160 - urllib3.connectionpool - DEBUG: https://v6.exchangerate-api.com:443 "GET /v6/730e38611211b47d836f66ef/latest/USD HTTP/1.1" 200 1570
+2024-12-28 19:39:00,163 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): v6.exchangerate-api.com:443
+2024-12-28 19:39:00,582 - urllib3.connectionpool - DEBUG: https://v6.exchangerate-api.com:443 "GET /v6/730e38611211b47d836f66ef/latest/EUR HTTP/1.1" 200 1571
+2024-12-28 19:39:00,586 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): v6.exchangerate-api.com:443
+2024-12-28 19:39:01,025 - urllib3.connectionpool - DEBUG: https://v6.exchangerate-api.com:443 "GET /v6/730e38611211b47d836f66ef/latest/AED HTTP/1.1" 200 1532
+2024-12-28 19:39:01,028 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): v6.exchangerate-api.com:443
+2024-12-28 19:39:01,404 - urllib3.connectionpool - DEBUG: https://v6.exchangerate-api.com:443 "GET /v6/730e38611211b47d836f66ef/latest/CNY HTTP/1.1" 200 1498
+2024-12-28 19:39:01,408 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): v6.exchangerate-api.com:443
+2024-12-28 19:39:01,789 - urllib3.connectionpool - DEBUG: https://v6.exchangerate-api.com:443 "GET /v6/730e38611211b47d836f66ef/latest/GBP HTTP/1.1" 200 1592
+2024-12-28 19:39:01,791 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): v6.exchangerate-api.com:443
+2024-12-28 19:39:02,196 - urllib3.connectionpool - DEBUG: https://v6.exchangerate-api.com:443 "GET /v6/730e38611211b47d836f66ef/latest/CHF HTTP/1.1" 200 1569
+2024-12-28 19:39:02,200 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): v6.exchangerate-api.com:443
+2024-12-28 19:39:02,607 - urllib3.connectionpool - DEBUG: https://v6.exchangerate-api.com:443 "GET /v6/730e38611211b47d836f66ef/latest/KZT HTTP/1.1" 200 1410
+2024-12-28 19:39:02,610 - urllib3.connectionpool - DEBUG: Starting new HTTPS connection (1): v6.exchangerate-api.com:443
+2024-12-28 19:39:03,052 - urllib3.connectionpool - DEBUG: https://v6.exchangerate-api.com:443 "GET /v6/730e38611211b47d836f66ef/latest/BYN HTTP/1.1" 200 1538
+2024-12-28 19:39:03,054 - root - INFO: Формирование JSON ответа
+2024-12-28 19:39:03,054 - root - INFO: json-ответ создан успешно

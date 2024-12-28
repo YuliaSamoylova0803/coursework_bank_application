@@ -1,3 +1,14 @@
 my_function ok
 my_function ok
 test_log_save_file error: TypeError. Inputs: (), {}
+test_log_save_file error: TypeError. Inputs: (), {}
+my_function ok
+test_log_save_file error: TypeError. Inputs: (), {}
+test_log_save_file error: TypeError. Inputs: (), {}
+my_function ok
+test_log_save_file error: TypeError. Inputs: (), {}
+my_function ok
+test_log_save_file error: TypeError. Inputs: (), {}
+my_function ok
+test_log_save_file error: TypeError. Inputs: (), {}
+my_function ok
