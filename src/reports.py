@@ -1,6 +1,5 @@
 import datetime
 import datetime as dt
-import json
 from functools import wraps
 from logging import getLogger
 from pathlib import Path
@@ -56,19 +55,19 @@ def spending_by_category(df_transactions, category: str, date: [str] = None):
         & (pd.to_datetime(df_transactions["Дата операции"], dayfirst=True) >= start_date)
         & (df_transactions["Категория"] == category)
     ]
-    #transactions_by_category_json = json.dumps(transactions_by_category, ensure_ascii=False)
+    # transactions_by_category_json = json.dumps(transactions_by_category, ensure_ascii=False)
     return transactions_by_category.to_json(force_ascii=False)
 
 
 if __name__ == "__main__":
-    transactions_by_category_json = spending_by_category(
-        get_excel_dataframe(excel_filename), "Аптеки", "26.07.2019 12:00:00"
-    )
+    # transactions_by_category_json = spending_by_category(
+    #     get_excel_dataframe(excel_filename), "Аптеки", "26.07.2019 12:00:00"
+    # )
     transactions_by_category = spending_by_category(
         get_excel_dataframe(excel_filename), "Аптеки", "26.07.2019 12:00:00"
     )
-    #print(len(transactions_by_category_json))
+    # print(len(transactions_by_category_json))
     print(len(transactions_by_category))
-    print(transactions_by_category_json)
-    print(type(transactions_by_category_json))
+    # print(transactions_by_category_json)
+    # print(type(transactions_by_category_json))
     print(type(transactions_by_category))

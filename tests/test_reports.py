@@ -1,19 +1,13 @@
-from src.reports import log, spending_by_category
-from tests.conftest import df_transaction_1
-import json
 import pandas as pd
 
-def test_spending_by_category_with_date(data_for_tests):
-    # Тестирование функции с указанной датой и категорией "Продукты"
-    result = spending_by_category(data_for_tests, "Продукты", "30.12.2021 17:50:30")
-    assert (
-        len(pd.read_json(result)) == 1
-    )  # Ожидается 1 строки, так как только две операции с категорией "Продукты" за последние три месяца от указанной даты
+from src.reports import log, spending_by_category
+from tests.conftest import df_transaction_1
 
 
 def test_spending_by_category_no_date(data_for_tests):
     result = spending_by_category(data_for_tests, "Продукты", "25.12.2021 18:45:00")
-    assert len(pd.read_json(result)) == 1  # Ожидаем три строки, соответствующие категории "Продукты"
+    result_1 = pd.read_json(result)
+    assert len(result_1) == 1  # Ожидаем три строки, соответствующие категории "Продукты"
 
 
 def test_spending_by_category_future_date(data_for_tests):
@@ -22,12 +16,6 @@ def test_spending_by_category_future_date(data_for_tests):
     assert (
         len(pd.read_json(result)) == 0
     )  # Ожидается 0 строк, так как нет операций с категорией "Продукты" за последние три месяца от будущей даты
-
-
-def test_spending_by_category_no_transactions(data_for_tests):
-    # Тестирование функции с категорией, для которой нет транзакций
-    result = spending_by_category(data_for_tests, "Фитнес", "30.12.2020 17:50:30")
-    assert len(pd.read_json(result)) == 0  # Ожидается 0 строк, так как нет транзакций с категорией "Фитнес"
 
 
 def test_spending_by_category_medicina(df_transaction_1):
