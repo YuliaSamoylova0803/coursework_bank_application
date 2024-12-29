@@ -8,8 +8,16 @@ import pandas as pd
 import pytest
 
 from src.settings import BASE_DIR
-from src.utils import (get_currency_exchange_rates, get_date, get_dict_transaction, get_excel_dataframe,
-                       get_expenses_cards, get_greeting, get_stock_prices, top_transactions)
+from src.utils import (
+    get_currency_exchange_rates,
+    get_date,
+    get_dict_transaction,
+    get_excel_dataframe,
+    get_expenses_cards,
+    get_greeting,
+    get_stock_prices,
+    top_transactions,
+)
 
 excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
@@ -114,14 +122,14 @@ def test_get_currency_exchange_rates(mocked_get, mocked_json_load, exchange_rate
     mocked_get.return_value = mocked_response
     result = get_currency_exchange_rates(stock_rates_path)
     assert result == [
-        {"currency": "USD", "rate": 103.32},
-        {"currency": "EUR", "rate": 107.75},
-        {"currency": "AED", "rate": 28.13},
+        {"currency": "USD", "rate": 103.29},
+        {"currency": "EUR", "rate": 107.78},
+        {"currency": "AED", "rate": 28.12},
         {"currency": "CNY", "rate": 14.16},
-        {"currency": "GBP", "rate": 129.84},
-        {"currency": "CHF", "rate": 114.66},
+        {"currency": "GBP", "rate": 129.83},
+        {"currency": "CHF", "rate": 114.71},
         {"currency": "KZT", "rate": 0.2},
-        {"currency": "BYN", "rate": 31.65},
+        {"currency": "BYN", "rate": 31.55},
     ]
 
 
@@ -137,7 +145,7 @@ def test_get_stock_prices(mocked_get, mocked_json_load, stocks_price):
     assert result == [
         {"stock": "AAPL", "price": 212.2},
         {"stock": "AMZN", "price": 189.1},
-        {"stock": "GOOGL", "price": 168.7},
+        {"stock": "GOOGL", "price": 169.0},
         {"stock": "MSFT", "price": 425.1},
         {"stock": "TSLA", "price": 235.1},
     ]

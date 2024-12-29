@@ -175,7 +175,7 @@ def get_stock_prices(json_file: str) -> list[Any]:
 
 
 # print(get_stock_prices(stock_rates_path))
-
+#
 # if __name__ == "__main__":
 #
 #     stock_price = get_stock_prices(stock_rates_path)
