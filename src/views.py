@@ -1,13 +1,19 @@
 import json
 import os
-from logging import getLogger
+from logging import INFO, FileHandler, StreamHandler, basicConfig, getLogger
 from pathlib import Path
 
 from dotenv import load_dotenv
-from logging import INFO, FileHandler, StreamHandler, basicConfig, getLogger
+
 from src.settings import BASE_DIR
-from src.utils import (get_currency_exchange_rates, get_excel_dataframe, get_expenses_cards, get_greeting,
-                       get_stock_prices, top_transactions)
+from src.utils import (
+    get_currency_exchange_rates,
+    get_excel_dataframe,
+    get_expenses_cards,
+    get_greeting,
+    get_stock_prices,
+    top_transactions,
+)
 
 logger = getLogger(__name__)
 

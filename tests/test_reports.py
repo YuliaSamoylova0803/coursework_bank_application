@@ -1,5 +1,6 @@
-import pandas as pd
 import json
+
+import pandas as pd
 
 from src.reports import log, spending_by_category
 from tests.conftest import df_transaction_1
@@ -17,7 +18,9 @@ def test_spending_by_category_future_date(data_for_tests):
     result = spending_by_category(data_for_tests, "Супермаркеты", "01.02.2023 00:00:00")
     result_dict = json.loads(result)
     result_1 = pd.DataFrame(result_dict)
-    assert (len(result_1)) == 0 # Ожидается 0 строк, так как нет операций с категорией "Продукты" за последние три месяца от будущей даты
+    assert (
+        len(result_1)
+    ) == 0  # Ожидается 0 строк, так как нет операций с категорией "Продукты" за последние три месяца от будущей даты
 
 
 def test_spending_by_category_medicina(df_transaction_1):

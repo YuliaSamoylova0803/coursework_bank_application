@@ -9,4 +9,4 @@ project_log = Path(BASE_DIR, "logs", "logs_file.txt")
 stock_rates_path = Path(BASE_DIR, "src", "user_settings.json")
 
 log_config = Path("../logging.config").resolve().parents
-#print(log_config)
+# print(log_config)
