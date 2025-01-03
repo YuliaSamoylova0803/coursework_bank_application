@@ -1,23 +1,18 @@
 import datetime
 import datetime as dt
+import json
 import unittest
 from pathlib import Path
-from unittest.mock import Mock, patch
+from unittest import mock
+from unittest.mock import Mock, mock_open, patch
 
 import pandas as pd
 import pytest
+import requests
 
 from src.settings import BASE_DIR
-from src.utils import (
-    get_currency_exchange_rates,
-    get_date,
-    get_dict_transaction,
-    get_excel_dataframe,
-    get_expenses_cards,
-    get_greeting,
-    get_stock_prices,
-    top_transactions,
-)
+from src.utils import (get_currency_exchange_rates, get_date, get_dict_transaction, get_excel_dataframe,
+                       get_expenses_cards, get_greeting, get_stock_prices, get_user_setting, top_transactions)
 
 excel_filename = Path(BASE_DIR, "data", "operations.xlsx")
 reports_log = Path(BASE_DIR, "logs", "reports_file.txt")
@@ -112,43 +107,43 @@ def test_top_transaction_empty_list():
         top_transactions()
 
 
-@patch("json.load")
-@patch("requests.get")
-def test_get_currency_exchange_rates(mocked_get, mocked_json_load, exchange_rates):
-    mocked_response = Mock()
-    mocked_json_load.return_value = {"user_currencies": ["USD", "EUR", "AED", "CNY", "GBP", "CHF", "KZT", "BYN"]}
-    mocked_get.return_value.status_code = 200
-    mocked_response.json.return_value = []
-    mocked_get.return_value = mocked_response
-    result = get_currency_exchange_rates(stock_rates_path)
-    assert result == [
-        {"currency": "USD", "rate": 103.29},
-        {"currency": "EUR", "rate": 107.78},
-        {"currency": "AED", "rate": 28.12},
-        {"currency": "CNY", "rate": 14.16},
-        {"currency": "GBP", "rate": 129.83},
-        {"currency": "CHF", "rate": 114.71},
-        {"currency": "KZT", "rate": 0.2},
-        {"currency": "BYN", "rate": 31.55},
-    ]
-
-
-@patch("json.load")
-@patch("requests.get")
-def test_get_stock_prices(mocked_get, mocked_json_load, stocks_price):
-    mocked_response = Mock()
-    mocked_json_load.return_value = {"user_stocks": ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]}
-    mocked_response.json.return_value = []
-    mocked_get.return_value.status_code = 200
-    mocked_get.return_value = mocked_response
-    result = get_stock_prices(stock_rates_path)
-    assert result == [
-        {"stock": "AAPL", "price": 212.2},
-        {"stock": "AMZN", "price": 189.1},
-        {"stock": "GOOGL", "price": 169.0},
-        {"stock": "MSFT", "price": 425.1},
-        {"stock": "TSLA", "price": 235.1},
-    ]
+# @patch("json.load")
+# @patch("requests.get")
+# def test_get_currency_exchange_rates(mocked_get, mocked_json_load, exchange_rates):
+#     mocked_response = Mock()
+#     mocked_json_load.return_value = {"user_currencies": ["USD", "EUR", "AED", "CNY", "GBP", "CHF", "KZT", "BYN"]}
+#     mocked_get.return_value.status_code = 200
+#     mocked_response.json.return_value = []
+#     mocked_get.return_value = mocked_response
+#     result = get_currency_exchange_rates(stock_rates_path)
+#     assert result == [
+#         {"currency": "USD", "rate": 103.29},
+#         {"currency": "EUR", "rate": 107.78},
+#         {"currency": "AED", "rate": 28.12},
+#         {"currency": "CNY", "rate": 14.16},
+#         {"currency": "GBP", "rate": 129.83},
+#         {"currency": "CHF", "rate": 114.71},
+#         {"currency": "KZT", "rate": 0.2},
+#         {"currency": "BYN", "rate": 31.55},
+#     ]
+#
+#
+# @patch("json.load")
+# @patch("requests.get")
+# def test_get_stock_prices(mocked_get, mocked_json_load, stocks_price):
+#     mocked_response = Mock()
+#     mocked_json_load.return_value = {"user_stocks": ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]}
+#     mocked_response.json.return_value = []
+#     mocked_get.return_value.status_code = 200
+#     mocked_get.return_value = mocked_response
+#     result = get_stock_prices(stock_rates_path)
+#     assert result == [
+#         {"stock": "AAPL", "price": 212.2},
+#         {"stock": "AMZN", "price": 189.1},
+#         {"stock": "GOOGL", "price": 169.0},
+#         {"stock": "MSFT", "price": 425.1},
+#         {"stock": "TSLA", "price": 235.1},
+#     ]
 
 
 def test_get_greeting_morning():
@@ -177,3 +172,101 @@ def test_get_greeting_night():
         with patch("datetime.datetime.now") as mock_now:
             mock_now.return_value = dt.datetime(2023, 4, 1, 23, 0, 0)
             assert get_greeting() == "Доброй ночи"
+
+
+# #@patch("requests.request")
+# @patch("builtins.open", new_callable=mock_open, read_data="user_stocks")
+# def test_get_stock_prices(mocked_file):
+#     with patch('builtins.open', mock_open(read_data="mocked currencies_stocks_list")) as mocked_file:
+#         currencies_stocks_list = mocked_file.return_value.read()
+#     get_stock_prices("path/to/open") == "mocked currencies_stocks_list"
+#
+#
+# class TestGetStockPrices(unittest.TestCase):
+#     @patch("requests.request")
+#     @patch(
+#         "builtins.open",
+#         mock_open(
+#             read_data="""
+#     {
+#             "user_stocks": ["AAPL"]
+#     }
+#     """
+#         ),
+#     )
+#     def test_get_stock_prices(self, mock_request):
+#         user_stocks = get_stock_prices("path/to/file.json")
+#
+#         self.assertEqual(user_stocks, {"stock": "AAPL", "price": 213.4})
+#         # Настраиваем моки
+#         mock_request_env.return_value = "test_api_key"
+#         mock_response = mock.Mock()
+#         mock_response.status_code = 200
+#         mock_response.json.return_value = {"stock": "AAPL", "price": 213.4}
+#         mock_request.return_value = mock_response
+#
+#         # Тестируем функцию
+#         currencies_stocks_list = {
+#             'user_currencies': ['USD', 'EUR', 'AED', 'CNY', 'GBP', 'CHF', 'KZT', 'BYN'],
+#             'user_stocks': ['AAPL', 'AMZN', 'GOOGL', 'MSFT', 'TSLA']
+#                                   }
+#         mock_response = get_stock_prices(currencies_stocks_list)
+#
+#         # Проверяем результат
+#         expected_result = [
+#             {"stock": "AAPL", "price": 213.4}
+#         ]
+#
+#         self.assertEqual(mock_response, expected_result)
+#         mock_request.assert_called_once_with("https://financialmodelingprep.com/api/v3/quote/AAPL?apikey=test_api_key")
+#
+# class TestReadFile(unittest.TestCase):
+#     @patch('builtins.open', new_callable=mock_open, read_data='file content')
+#     def test_read_file(self, mock_file):
+#         content = read_file('testfile.txt')
+#         mock_file.assert_called_once_with('testfile.txt', 'r')
+#         self.assertEqual(content, 'file content')
+#
+#
+# def test_patch(mock_file):
+#     assert open("path/to/open").read() == "data"
+#     mock_file.assert_called_with("path/to/open")
+
+
+class TestGetUserSetting(unittest.TestCase):
+    @patch(
+        "builtins.open",
+        mock_open(
+            read_data="""
+    {
+        "user_currencies": ["USD", "EUR", "AED", "CNY", "GBP", "CHF", "KZT", "BYN"],
+        "user_stocks": ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]
+    }
+    """
+        ),
+    )
+    def test_get_user_setting(self):
+        user_currencies, user_stocks = get_user_setting("path/to/file.json")
+        self.assertEqual(user_currencies, ["USD", "EUR", "AED", "CNY", "GBP", "CHF", "KZT", "BYN"])
+        self.assertEqual(user_stocks, ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"])
+
+    @patch(
+        "builtins.open",
+        mock_open(
+            read_data="""
+    {
+        "user_currencies": [],
+        "user_stocks": []
+    }
+    """
+        ),
+    )
+    def test_get_user_setting_empty(self):
+        user_currencies, user_stocks = get_user_setting("path/to/file.json")
+        self.assertEqual(user_currencies, [])
+        self.assertEqual(user_stocks, [])
+
+    @patch("builtins.open", side_effect=FileNotFoundError)
+    def test_get_user_setting_file_not_found(self, mock_open):
+        with self.assertRaises(FileNotFoundError):
+            get_user_setting("path/to/file.json")

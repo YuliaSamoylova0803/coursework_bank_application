@@ -146,16 +146,43 @@ def get_expenses_cards(df_transactions) -> list[dict]:
 #     print(result_expenses_cards)
 
 
-def get_stock_prices(json_file: str) -> list[Any]:
-    """Функция принимает на вход json-файл и возвращает список словарей с курсами требуемых акций.
+def get_user_setting(path):
+    """Функция перевода настроек пользователя(курс и акции) из json объекта"""
+    logger.info(f"Вызвана функция с файлом {path}")
+    with open(path, "r", encoding="utf-8") as f:
+        user_setting = json.load(f)
+        logger.info("Получены настройки пользователя")
+        result_cur = user_setting["user_currencies"]
+        result_stock = user_setting["user_stocks"]
+    return result_cur, result_stock
+
+    # print(result_cur)
+    # print(type(result_cur))
+    # print(result_stock)
+    # print(type(result_stock))
+
+
+result_cur = get_user_setting(stock_rates_path)
+result_stock = get_user_setting(stock_rates_path)
+
+# if __name__ == "__main__":
+#     user_setting["user_currencies"] = get_user_setting(stock_rates_path)
+#     print(type(user_setting["user_currencies"]))
+
+# result_currencies = get_user_setting(stock_rates_path)
+# print(result_currencies)
+# result_stocks = get_user_setting(stock_rates_path)
+
+
+def get_stock_prices(result_stock: list[str]) -> list[Any]:
+    """Функция принимает на вход список акций возвращает список словарей с курсами требуемых акций.
     Стоимости акций функция импортирует через API"""
     logger.info("Стоимости акций получены")
-    with open(json_file, "r", encoding="utf-8") as file:
 
-        currencies_stocks_list = json.load(file)
-        stock_prices_list_dicts = []
+    result_stock = get_user_setting(stock_rates_path)
+    stock_prices_list_dicts = []
 
-    for i in currencies_stocks_list.get("user_stocks"):
+    for i in list(result_stock):
         url = f"https://financialmodelingprep.com/api/v3/quote/{i}?apikey={API_KEY_STOCK}"
         payload = {}
         headers = {"apikey": API_KEY_STOCK}
@@ -175,23 +202,22 @@ def get_stock_prices(json_file: str) -> list[Any]:
 
 
 # print(get_stock_prices(stock_rates_path))
-#
-# if __name__ == "__main__":
-#
-#     stock_price = get_stock_prices(stock_rates_path)
-#
-#     print(stock_price)
+
+if __name__ == "__main__":
+
+    stock_price = get_stock_prices(get_user_setting(stock_rates_path))
+
+    print(stock_price)
 
 
-def get_currency_exchange_rates(json_file: str) -> list[Any]:
-    """Функция принимает на вход json-файл и возвращает список словарей с курсами требуемых валют.
+def get_currency_exchange_rates(result_cur: list[str]) -> list[Any]:
+    """Функция принимает на список валют и возвращает список словарей с курсами требуемых валют.
     Курс валюты функция импортирует через API"""
     logger.info("Открытие файла JSON")
-    with open(json_file, "r") as file:
-        currencies_stocks_list = json.load(file)
-        currency_rates_list_dicts = []
+    result_cur = get_user_setting(stock_rates_path)
+    currency_rates_list_dicts = []
 
-    for i in currencies_stocks_list.get("user_currencies"):
+    for i in result_cur:
         url = f"https://v6.exchangerate-api.com/v6/{API_KEY}/latest/{i}"
         payload = {}
         headers = {"apikey": API_KEY}
@@ -211,9 +237,9 @@ def get_currency_exchange_rates(json_file: str) -> list[Any]:
     return currency_rates_list_dicts
 
 
-# if __name__ == "__main__":
-#     currency_rates = get_currency_exchange_rates(stock_rates_path)
-#     print(currency_rates)
+if __name__ == "__main__":
+    currency_rates = get_currency_exchange_rates(get_user_setting(stock_rates_path))
+    print(currency_rates)
 
 
 def get_greeting():
