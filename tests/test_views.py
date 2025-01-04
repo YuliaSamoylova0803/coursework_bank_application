@@ -10,7 +10,7 @@ stock_rates_path = Path(BASE_DIR, "src", "user_settings.json")
 def test_main_ok():
     assert main() == (
         "{\n"
-        '    "greeting": "Добрый вечер",\n'
+        '    "greeting": "Доброе утро",\n'
         '    "cards": [\n'
         "        {\n"
         '            "last_digits": "*1112",\n'
@@ -83,57 +83,57 @@ def test_main_ok():
         '    "currency_rates": [\n'
         "        {\n"
         '            "currency": "USD",\n'
-        '            "rate": 103.29\n'
+        '            "rate": 110.85\n'
         "        },\n"
         "        {\n"
         '            "currency": "EUR",\n'
-        '            "rate": 107.78\n'
+        '            "rate": 114.16\n'
         "        },\n"
         "        {\n"
         '            "currency": "AED",\n'
-        '            "rate": 28.12\n'
+        '            "rate": 30.18\n'
         "        },\n"
         "        {\n"
         '            "currency": "CNY",\n'
-        '            "rate": 14.16\n'
+        '            "rate": 15.12\n'
         "        },\n"
         "        {\n"
         '            "currency": "GBP",\n'
-        '            "rate": 129.83\n'
+        '            "rate": 137.64\n'
         "        },\n"
         "        {\n"
         '            "currency": "CHF",\n'
-        '            "rate": 114.71\n'
+        '            "rate": 121.92\n'
         "        },\n"
         "        {\n"
         '            "currency": "KZT",\n'
-        '            "rate": 0.2\n'
+        '            "rate": 0.21\n'
         "        },\n"
         "        {\n"
         '            "currency": "BYN",\n'
-        '            "rate": 31.55\n'
+        '            "rate": 33.23\n'
         "        }\n"
         "    ],\n"
         '    "stock_prices": [\n'
         "        {\n"
         '            "stock": "AAPL",\n'
-        '            "price": 212.2\n'
+        '            "price": 213.8\n'
         "        },\n"
         "        {\n"
         '            "stock": "AMZN",\n'
-        '            "price": 189.1\n'
+        '            "price": 190.0\n'
         "        },\n"
         "        {\n"
         '            "stock": "GOOGL",\n'
-        '            "price": 169.0\n'
+        '            "price": 169.7\n'
         "        },\n"
         "        {\n"
         '            "stock": "MSFT",\n'
-        '            "price": 425.1\n'
+        '            "price": 425.2\n'
         "        },\n"
         "        {\n"
         '            "stock": "TSLA",\n'
-        '            "price": 235.1\n'
+        '            "price": 239.9\n'
         "        }\n"
         "    ]\n"
         "}"

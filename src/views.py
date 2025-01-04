@@ -6,14 +6,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from src.settings import BASE_DIR
-from src.utils import (
-    get_currency_exchange_rates,
-    get_excel_dataframe,
-    get_expenses_cards,
-    get_greeting,
-    get_stock_prices,
-    top_transactions,
-)
+from src.utils import (get_currency_exchange_rates, get_excel_dataframe, get_expenses_cards, get_greeting,
+                       get_stock_prices, get_user_setting, top_transactions)
 
 logger = getLogger(__name__)
 
@@ -46,8 +40,10 @@ def main():
     greeting = get_greeting()
     cards = get_expenses_cards(get_excel_dataframe(excel_filename))
     top_trans = top_transactions(get_excel_dataframe(excel_filename))
-    stocks_prices = get_stock_prices(stock_rates_path)
-    currency_rates = get_currency_exchange_rates(stock_rates_path)
+    result_stock = get_user_setting(stock_rates_path)
+    stocks_prices = get_stock_prices(result_stock)
+    result_cur = get_user_setting(stock_rates_path)
+    currency_rates = get_currency_exchange_rates(result_cur)
     logger.info("Формирование JSON ответа")
     result_list_dicts = {
         "greeting": greeting,
