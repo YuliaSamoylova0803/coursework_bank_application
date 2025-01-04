@@ -1,14 +1,11 @@
 import datetime
 import datetime as dt
-import json
 import unittest
 from pathlib import Path
-from unittest import mock
 from unittest.mock import Mock, mock_open, patch
 
 import pandas as pd
 import pytest
-import requests
 
 from src.settings import BASE_DIR
 from src.utils import (get_currency_exchange_rates, get_date, get_dict_transaction, get_excel_dataframe,
@@ -246,9 +243,15 @@ class TestGetUserSetting(unittest.TestCase):
         ),
     )
     def test_get_user_setting(self):
-        user_currencies, user_stocks = get_user_setting("path/to/file.json")
-        self.assertEqual(user_currencies, ["USD", "EUR", "AED", "CNY", "GBP", "CHF", "KZT", "BYN"])
-        self.assertEqual(user_stocks, ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"])
+        user_setting = get_user_setting("path/to/file.json")
+        self.assertEqual(
+            user_setting,
+            {
+                "user_currencies": ["USD", "EUR", "AED", "CNY", "GBP", "CHF", "KZT", "BYN"],
+                "user_stocks": ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"],
+            },
+        )
+        # self.assertEqual(user_stocks, ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"])
 
     @patch(
         "builtins.open",
@@ -262,11 +265,85 @@ class TestGetUserSetting(unittest.TestCase):
         ),
     )
     def test_get_user_setting_empty(self):
-        user_currencies, user_stocks = get_user_setting("path/to/file.json")
-        self.assertEqual(user_currencies, [])
-        self.assertEqual(user_stocks, [])
+        user_setting = get_user_setting("path/to/file.json")
+        self.assertEqual(user_setting, {"user_currencies": [], "user_stocks": []})
+        # self.assertEqual(user_stocks, [])
 
     @patch("builtins.open", side_effect=FileNotFoundError)
     def test_get_user_setting_file_not_found(self, mock_open):
         with self.assertRaises(FileNotFoundError):
             get_user_setting("path/to/file.json")
+
+
+@patch("requests.get")
+def test_get_currency_exchange_rates(mock_get, currencies_stocks_list):
+    """Тестирование функции вывода курса валют"""
+    mock_get.return_value.json.return_value = [
+        {"currency": "USD", "rate": 110.85},
+        {"currency": "EUR", "rate": 114.16},
+        {"currency": "AED", "rate": 30.18},
+        {"currency": "CNY", "rate": 15.12},
+        {"currency": "GBP", "rate": 137.64},
+        {"currency": "CHF", "rate": 121.92},
+        {"currency": "KZT", "rate": 0.21},
+        {"currency": "BYN", "rate": 33.23},
+    ]
+    assert get_currency_exchange_rates(currencies_stocks_list) == [
+        {"currency": "USD", "rate": 110.85},
+        {"currency": "EUR", "rate": 114.16},
+        {"currency": "AED", "rate": 30.18},
+        {"currency": "CNY", "rate": 15.12},
+        {"currency": "GBP", "rate": 137.64},
+        {"currency": "CHF", "rate": 121.92},
+        {"currency": "KZT", "rate": 0.21},
+        {"currency": "BYN", "rate": 33.23},
+    ]
+
+
+# def test_get_currency_exchange_rates_empty():
+#     """Тестирование, если передан пустой список"""
+#     result = get_currency_exchange_rates([])
+#     assert result == []
+
+
+@patch("requests.get")
+def test_get_stock_prices(mock_get):
+    """Тестирование функции получения данных об акциях"""
+    mock_response = Mock()
+
+    mock_response.json.return_value = [
+        {"stock": "AAPL", "price": 213.8},
+        {"stock": "AMZN", "price": 190.0},
+        {"stock": "GOOGL", "price": 169.7},
+        {"stock": "MSFT", "price": 425.2},
+        {"stock": "TSLA", "price": 239.9},
+    ]
+    mock_get.return_value = mock_response
+    stocks = ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]
+    expected_result = [
+        {"stock": "AAPL", "price": 213.8},
+        {"stock": "AMZN", "price": 190.0},
+        {"stock": "GOOGL", "price": 169.7},
+        {"stock": "MSFT", "price": 425.2},
+        {"stock": "TSLA", "price": 239.9},
+    ]
+
+    result = get_stock_prices(stocks)
+    assert result == expected_result
+
+
+# def test_get_stock_prices_empty_list():
+#     """Тестирование, если передан пустой словарь"""
+#     result = get_stock_prices([])
+#     expected = []
+#     assert result == expected
+
+
+# @patch('requests.get')
+# def test_get_stock_prices_invalid_response(mock_get):
+#     mock_response = Mock()
+#     mock_response.json.return_value = [{"stock": "GOOGL", "price": "invalid_price"}]
+#     mock_get.return_value = mock_response
+#     stock = ["GOOGL"]
+#     with pytest.raises(ValueError):
+#         get_stock_prices(stock)

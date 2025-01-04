@@ -152,9 +152,9 @@ def get_user_setting(path):
     with open(path, "r", encoding="utf-8") as f:
         user_setting = json.load(f)
         logger.info("Получены настройки пользователя")
-        result_cur = user_setting["user_currencies"]
-        result_stock = user_setting["user_stocks"]
-    return result_cur, result_stock
+        # result_cur = user_setting["user_currencies"]
+        # result_stock = user_setting["user_stocks"]
+    return user_setting  # result_cur, result_stock
 
     # print(result_cur)
     # print(type(result_cur))
@@ -162,6 +162,7 @@ def get_user_setting(path):
     # print(type(result_stock))
 
 
+user_setting = get_user_setting(stock_rates_path)
 result_cur = get_user_setting(stock_rates_path)
 result_stock = get_user_setting(stock_rates_path)
 
@@ -174,15 +175,16 @@ result_stock = get_user_setting(stock_rates_path)
 # result_stocks = get_user_setting(stock_rates_path)
 
 
-def get_stock_prices(result_stock: list[str]) -> list[Any]:
+def get_stock_prices(user_setting: dict[str]) -> list[Any]:
     """Функция принимает на вход список акций возвращает список словарей с курсами требуемых акций.
     Стоимости акций функция импортирует через API"""
     logger.info("Стоимости акций получены")
 
-    result_stock = get_user_setting(stock_rates_path)
+    user_setting = get_user_setting(stock_rates_path)
+    print(type(user_setting))
     stock_prices_list_dicts = []
 
-    for i in list(result_stock):
+    for i in user_setting["user_stocks"]:
         url = f"https://financialmodelingprep.com/api/v3/quote/{i}?apikey={API_KEY_STOCK}"
         payload = {}
         headers = {"apikey": API_KEY_STOCK}
@@ -194,7 +196,7 @@ def get_stock_prices(result_stock: list[str]) -> list[Any]:
             print(f"Запрос не был успешным. Возможная причина: {response.reason}")
         else:
             result = response.json()
-
+            # print(result)
             stock_prices_dict = {"stock": i, "price": round(result[0].get("priceAvg200"), 1)}
             stock_prices_list_dicts.append(stock_prices_dict)
 
@@ -210,14 +212,14 @@ if __name__ == "__main__":
     print(stock_price)
 
 
-def get_currency_exchange_rates(result_cur: list[str]) -> list[Any]:
+def get_currency_exchange_rates(user_setting: dict[str]) -> list[Any]:
     """Функция принимает на список валют и возвращает список словарей с курсами требуемых валют.
     Курс валюты функция импортирует через API"""
     logger.info("Открытие файла JSON")
-    result_cur = get_user_setting(stock_rates_path)
+    user_setting = get_user_setting(stock_rates_path)
     currency_rates_list_dicts = []
 
-    for i in result_cur:
+    for i in user_setting["user_currencies"]:
         url = f"https://v6.exchangerate-api.com/v6/{API_KEY}/latest/{i}"
         payload = {}
         headers = {"apikey": API_KEY}
@@ -229,9 +231,9 @@ def get_currency_exchange_rates(result_cur: list[str]) -> list[Any]:
             logger.info(f"Запрос не был успешным. Возможная причина: {response.reason}")
             print(f"Запрос не был успешным. Возможная причина: {response.reason}")
         else:
-            result = response.json()
-
-            currency_rates_dict = {"currency": i, "rate": round(result.get("conversion_rates").get("RUB"), 2)}
+            result_1 = response.json()
+            # print(result_1)
+            currency_rates_dict = {"currency": i, "rate": round(result_1.get("conversion_rates").get("RUB"), 2)}
             currency_rates_list_dicts.append(currency_rates_dict)
 
     return currency_rates_list_dicts

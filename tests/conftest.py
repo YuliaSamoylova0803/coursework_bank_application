@@ -17,14 +17,24 @@ def exchange_rates():
 
 
 @pytest.fixture
+def currencies_stocks_list():
+    return ["USD", "EUR", "AED", "CNY", "GBP", "CHF", "KZT", "BYN"]
+
+
+@pytest.fixture
 def stocks_price():
     return [
-        {"stock": "AAPL", "price": 212.2},
-        {"stock": "AMZN", "price": 189.1},
-        {"stock": "GOOGL", "price": 168.7},
-        {"stock": "MSFT", "price": 425.1},
-        {"stock": "TSLA", "price": 235.1},
+        {"stock": "AAPL", "price": 213.4},
+        {"stock": "AMZN", "price": 189.7},
+        {"stock": "GOOGL", "price": 169.5},
+        {"stock": "MSFT", "price": 425.2},
+        {"stock": "TSLA", "price": 238.8},
     ]
+
+
+@pytest.fixture
+def mocked_file():
+    return "path/to/open"
 
 
 @pytest.fixture
